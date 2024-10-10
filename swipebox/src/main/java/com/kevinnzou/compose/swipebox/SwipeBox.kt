@@ -66,6 +66,7 @@ fun SwipeBox(
     endContent: @Composable (RowScope.(swipeableState: SwipeableState<Int>, endSwipeProgress: Float) -> Unit)? = null,
     thresholds: (from: Int, to: Int) -> ThresholdConfig = { _, _ -> FixedThreshold(12.dp) },
     content: @Composable BoxScope.(swipeableState: SwipeableState<Int>, startSwipeProgress: Float, endSwipeProgress: Float) -> Unit,
+    isEnabled: Boolean
 ) {
     val startWidthPx = with(LocalDensity.current) { startContentWidth.toPx() }
     val endWidthPx = with(LocalDensity.current) { endContentWidth.toPx() }
@@ -158,13 +159,18 @@ fun SwipeBox(
                         .coerceIn(offsetRange)
                         .toInt(), 0
                 )
-            }
-            .swipeable(
-                state = state,
-                anchors = anchors,
-                orientation = Orientation.Horizontal,
-                thresholds = thresholds
-            )) {
+            }.let {
+                if (isEnabled) {
+                    it.swipeable(
+                        state = state,
+                        anchors = anchors,
+                        orientation = Orientation.Horizontal,
+                        thresholds = thresholds
+                    )
+                } else {
+                    it
+                }
+            }) {
             content(state, startSwipeProgress, endSwipeProgress)
         }
     }
