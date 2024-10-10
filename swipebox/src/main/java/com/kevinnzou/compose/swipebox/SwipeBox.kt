@@ -59,14 +59,14 @@ import kotlin.math.absoluteValue
 fun SwipeBox(
     modifier: Modifier = Modifier,
     state: SwipeableState<Int> = rememberSwipeableState(initialValue = 0),
+    isEnabled: Boolean = true,
     swipeDirection: SwipeDirection = SwipeDirection.EndToStart,
     startContentWidth: Dp = 0.dp,
     startContent: @Composable (RowScope.(swipeableState: SwipeableState<Int>, startSwipeProgress: Float) -> Unit)? = null,
     endContentWidth: Dp = 0.dp,
     endContent: @Composable (RowScope.(swipeableState: SwipeableState<Int>, endSwipeProgress: Float) -> Unit)? = null,
     thresholds: (from: Int, to: Int) -> ThresholdConfig = { _, _ -> FixedThreshold(12.dp) },
-    content: @Composable BoxScope.(swipeableState: SwipeableState<Int>, startSwipeProgress: Float, endSwipeProgress: Float) -> Unit,
-    isEnabled: Boolean
+    content: @Composable BoxScope.(swipeableState: SwipeableState<Int>, startSwipeProgress: Float, endSwipeProgress: Float) -> Unit
 ) {
     val startWidthPx = with(LocalDensity.current) { startContentWidth.toPx() }
     val endWidthPx = with(LocalDensity.current) { endContentWidth.toPx() }
